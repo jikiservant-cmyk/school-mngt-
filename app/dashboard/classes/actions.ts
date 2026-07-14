@@ -12,21 +12,22 @@ export async function addClassAction(formData: FormData) {
     return { error: 'Class name is required.' };
   }
 
+  const trimmedName = name.trim();
+  const firstChar = trimmedName.charAt(0);
+  if (firstChar === 'p' || firstChar === 's') {
+    return { error: 'Class names starting with P or S must have their first letter capitalized (e.g., P3 or S4).' };
+  }
+
   try {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       return { error: 'Not authenticated. Please log in.' };
     }
 
-    // Resolve the active school ID
-    const { data: staffData } = await supabase
-      .from('staff_users')
-      .select('people(school_id)')
-      .eq('auth_user_id', user.id)
-      .maybeSingle();
-
-    const schoolId = (staffData?.people as any)?.school_id;
-    if (!schoolId) {
+    // Resolve the active school ID using the security definer RPC function
+    const { data: schoolId, error: schoolErr } = await supabase.rpc('auth_school_id');
+    if (schoolErr || !schoolId) {
+      console.error('Failed to resolve school ID via auth_school_id:', schoolErr);
       return { error: 'Your school context could not be resolved. Please contact support.' };
     }
 
