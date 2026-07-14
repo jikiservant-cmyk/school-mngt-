@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-meridian-deep: #DCE3D2;
+  --color-meridian-panel: #EEF1E4;
+  --color-meridian-panel-raised: #E0E6D3;
+  --color-meridian-border: #C4CDB2;
+  --color-meridian-gold: #9C7A3C;
+  --color-meridian-gold-dim: #B9974E;
+  --color-meridian-text-1: #1E3226;
+  --color-meridian-text-2: #4A5E4C;
+  --color-meridian-text-3: #75886F;
+  --color-meridian-gain: #33693F;
+  --color-meridian-loss: #95502F;
+
+  --font-serif: "var(--font-serif)", serif;
+  --font-sans: "var(--font-sans)", sans-serif;
+  --font-mono: "var(--font-mono)", monospace;
+}
